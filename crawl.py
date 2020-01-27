@@ -9,18 +9,22 @@ def analyse(content,time_hour):
     # 全国 确诊 1409 例 疑似 2032 例
     # 死亡 42 例 治愈 39 例
     tree = html.fromstring(content)
-    c_confirm = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[1]/text()')
-    c_suspect = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[2]/text()')
-    c_dead = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[3]/text()')
-    c_heal = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[4]/text()')
-    import csv
-    nms = [time_hour,c_confirm[0],c_suspect[0],c_dead[0],c_heal[0]]
-    print(nms)
-    results=[[int(i) for i in nms]]
-    f = open('numbers.csv', 'a+')
-    with f:
-        writer = csv.writer(f)
-        writer.writerows(results)
+    try:
+        c_confirm = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[1]/span/text()')        
+        c_suspect = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[2]/span/text()')
+        c_dead = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[3]/span/text()')
+        c_heal = tree.xpath('//*[@id="root"]/div/div[3]/div[1]/p[2]/span/span[4]/span/text()')
+        import csv
+        nms = [time_hour,c_confirm[0],c_suspect[0],c_dead[0],c_heal[0]]
+        print(nms)
+        results=[[int(i) for i in nms]]
+        f = open('numbers.csv', 'a+')
+        with f:
+            writer = csv.writer(f)
+            writer.writerows(results)
+    except:
+        pass
+    
     
 
 def crawl_job():
